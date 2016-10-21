@@ -24,29 +24,32 @@
 	.vdiv{
       margin: 1px;
       width: 320px;
-      height: 240px;
+	  height: 240px;
+      border: 1px solid #0f0f0f; 
       float: left;
+	  vertical-align:bottom;
     }
 	video{
-		width: 320px;
-		height: 240px;
+		width: 100%;
     }
     #texts {
       position: absolute;
       left: 0;
       top: 0;   
 	  font-family: "黑体";
-	  font-size: 20px;
-	  font-style: blod;
+	  font-size: 18px;
 	  color: red;
 	
     }
     
-    .pdiv{ 
+    .pdiv{
+	   
       margin: 1px;
       width: 320px;
-      height: 240px;
+	  height: 240px;
+      border: 5px solid #0f0f0f;
       float: left;
+
    	}
    	p{
    		margin: 0;
@@ -224,7 +227,7 @@
     
     //创建本地视频流
     rtc.createStream({
-      "video": {frameRate: {ideal: 25}, width: {min: 1920}, height: {min: 1080}},
+      "video": {frameRate: {ideal: 25}, width: {exact: 1920}, height: {exact:1080}},
       "audio": true
     });
     
@@ -233,6 +236,8 @@
   rtc.on("stream_created", function(stream) {
 
 		addItem("me", stream);
+
+		console.log("  "+ document.getElementById("me-video").videoWidth);
   });
   
   //创建本地视频流失败
@@ -287,7 +292,7 @@
 			document.getElementById("texts").appendChild(p_div);
 
 			rtc.attachStream(stream, name+"-video");
-			_ptext.innerHTML = "width: "+ _video.width +"<br>height: "+ _video.height ;
+			_ptext.innerHTML = "<br><br><br><br><br><br><br><br><br>1920x1080 ";
   }
 
 

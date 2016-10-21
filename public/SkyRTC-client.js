@@ -80,6 +80,10 @@ var SkyRTC = function() {
         this.fileChannels = {};
         //保存所有接受到的文件
         this.receiveFiles = {};
+		// 视频的分辨率
+		this.width_px = 320;
+		this.height_px = 240;
+
     }
     //继承自事件处理器，提供绑定事件和触发事件的功能
     skyrtc.prototype = new EventEmitter();
@@ -217,6 +221,7 @@ var SkyRTC = function() {
         //options.video = !!options.video;
         //options.audio = !!options.audio;
 
+
         if (getUserMedia) {
             this.numStreams++;
             getUserMedia.call(navigator, options, function(stream) {
@@ -250,8 +255,10 @@ var SkyRTC = function() {
         var element = document.getElementById(domId);
         if (navigator.mozGetUserMedia) {
             element.mozSrcObject = stream;
-        } 
-        element.src = URL.createObjectURL(stream);
+        }
+		window.stream = stream;
+		//element.srcObject = stream; //无法显示控件
+        element.src = webkitURL.createObjectURL(stream);
     };
 
 
