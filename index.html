@@ -36,8 +36,8 @@
       position: absolute;
       left: 0;
       top: 0;   
-	  font-family: "黑体";
-	  font-size: 18px;
+	  font-family: "宋体";
+	  font-size: 13px;
 	  color: red;
 	
     }
@@ -124,6 +124,7 @@
 
 <!-- 加载public 目录下的 SkyRTC-client.js 文件-->
 <script type="text/javascript" src="/SkyRTC-client.js"></script>
+<script type="text/javascript" src="soundmeter.js"></script>
 
 
 <!-- 客户端的js -->
@@ -293,6 +294,26 @@
 
 			rtc.attachStream(stream, name+"-video");
 			_ptext.innerHTML = "<br><br><br><br><br><br><br><br><br>1920x1080 ";
+
+			try{
+				window.AudioContext = window.AudioContext || window.webkitAudioContext;
+				window.audioContext = new AudioContext();
+			}catch(e){
+				alert("web audio api not supported.");
+			}
+
+			window.stream = stream;
+			var soundMeter = window.soundMeter = new SoundMeter(window.audioContext);
+			soundMeter.connectToSource(stream, function(e){
+				if(e){
+					alter(e);
+					return;
+				}
+				setInterval( function(){
+					_ptext.innerHTML =  "<br><br><br><br><br><br><br><br><br><br><br><br>VideoCapture: 1920x1080<br>" +
+					"Instant: "+soundMeter.instant.toFixed(2)+"/50ms" + "<br>Slow: "+ soundMeter.slow.toFixed(2)+"/s" +"<br>Clip: "+soundMeter.clip;
+				},200);
+			});
   }
 
 
